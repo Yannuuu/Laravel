@@ -2,48 +2,21 @@
 
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use App\Http\Controllers\HomepageController; 
 
-
-Route::get('/', function(){ 
-    $title = "Homepage"; 
-    return view('web.homepage',['title'=>$title]); 
- }); 
+Route::get('/',[HomepageController::class,'index'])->name('homepage'); 
   
- Route::get('products', function(){ 
-    $title = "Products"; 
+Route::get('products', [HomepageController::class, 'products']); 
   
-    return view('web.products',['title'=>$title]); 
- }); 
+Route::get('product/{slug}', [HomepageController::class, 'product']); 
   
- Route::get('product/{slug}', function($slug){ 
-    $title = "Single Product"; 
+Route::get('categories',[HomepageController::class, 'categories']); 
   
-    return view('web.single_product',['title'=>$title,'slug'=>$slug]); 
- }); 
+Route::get('category/{slug}', [HomepageController::class, 'category']);  
   
- Route::get('categories', function(){ 
-    $title = "Categories"; 
+Route::get('cart', [HomepageController::class, 'cart']);  
   
-    return view('web.categories',['title'=>$title]); 
- }); 
-  
- Route::get('category/{slug}', function($slug){ 
-    $title = "Single Category"; 
-  
-    return view('web.single_category',['title'=>$title,'slug'=>$slug]); 
- }); 
-  
- Route::get('cart', function(){ 
-    $title = "Cart"; 
-  
-    return view('web.cart',['title'=>$title]); 
- }); 
-  
- Route::get('checkout', function(){ 
-    $title = "Checkout"; 
-  
-    return view('web.checkout',['title'=>$title]); 
- }); 
+Route::get('checkout', [HomepageController::class, 'checkout']);
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

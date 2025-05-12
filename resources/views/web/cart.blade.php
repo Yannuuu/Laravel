@@ -1,4 +1,3 @@
 <x-layout>
-    <x-slot:title>{{ $title }}</x-slot>
-        <h3>Ini adalah halaman Keranjang Belanja</h3>
+    <h3>Ini adalah halaman cart</h3>
 </x-layout>

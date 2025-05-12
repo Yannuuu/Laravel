@@ -1,33 +1,39 @@
-<x-layouts.app>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit Category') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <form action="{{ route('categories.update', $category) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        
-                        <x-dashboard.categories.form :category="$category" />
-
-                        <div class="flex justify-end gap-4 mt-6">
-                            <a href="{{ route('categories.index') }}" 
-                               class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
-                                Cancel
-                            </a>
-                            <button type="submit"
-                                    class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                                Update Category
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+<x-layouts.app :title="__('Categories')">
+    <div class="relative mb-6 w-full">
+        <flux:heading size="xl">Update Product Categories</flux:heading>
+        <flux:subheading size="lg" class="mb-6">Manage data Product Categories</flux:heading>
+        <flux:separator variant="subtle" />
     </div>
-</x-layouts.app> 
+
+    @if(session()->has('successMessage'))
+        <flux:badge color="lime" class="mb-3 w-full">{{session()->get('successMessage')}}</flux:badge>
+    @elseif(session()->has('errorMessage'))
+        <flux:badge color="red" class="mb-3 wf-full">{{session()->get('errorMessage')}}</flux:badge>
+    @endif
+
+    <form action="{{ route('categories.update', $category->id) }}" method="post" enctype="multipart/form-data">
+        @method('patch')
+        @csrf
+        
+        <flux:input label="Name" name="name" value="{{ $category->name }}" class="mb-3" />
+
+        <flux:input label="Slug" name="slug" value="{{ $category->slug }}" class="mb-3" />
+
+        <flux:textarea label="Description" name="description" class="mb-3">{{ $category->description }}</flux:textarea>
+
+        @if($category->image)
+            <div class="mb-3">
+                <img src="{{ Storage::url($category->image) }}" alt="{{ $category->name }}" class="w-32 h-32 object-cover rounded">
+            </div>
+        @endif
+
+        <flux:input type="file" label="Image" name="image" class="mb-3" />
+
+        <flux:separator />
+
+        <div class="mt-4">
+            <flux:button type="submit" variant="primary">Update</flux:button>
+            <flux:link href="{{ route('categories.index') }}" variant="ghost" class="ml-3">Kembali</flux:link>
+        </div>
+    </form>
+</x-layouts.app>

@@ -3,21 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Post;
 
-class PostController extends Controller
+class ProductTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // Fetch all posts from the database 
-        $posts = Post::all();
+        $categories = Categories::query()
+            ->when($request->filled('q'), function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->q . '%')
+                      ->orWhere('description', 'like', '%' . $request->q . '%');
+            })
+            ->paginate(10);
 
-        // Return the posts tp the view
-        return view('posts.index', [
-            'posts'=> $posts,
+        return view('dashboard.categories.index', [
+            'categories' => $categories,
+            'q' => $request->q
         ]);
     }
 
@@ -26,7 +29,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        //
     }
 
     /**
@@ -34,13 +37,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $post = new Post;
-        $post->tittle = $request->input('tittle');
-        $post->slug = $request->input('slug');
-        $post->content = $request->input('content');
-
-        $post->save();
-        return redirect()->route('post.index')->with('succes', 'Post created successfully.');
+        //
     }
 
     /**

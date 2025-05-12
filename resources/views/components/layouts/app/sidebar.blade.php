@@ -12,12 +12,19 @@
             </a>
 
             <flux:navlist variant="outline">
-                <flux:navlist.group :heading="('Menu')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                <flux:navlist.group :heading="__('Menu')" class="grid">
+                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
+                        {{ __('Dashboard') }}
+                    </flux:navlist.item>
 
-                    <flux:navlist.item icon="clipboard-document-list" :href="route('categories.index')" :current="request()->routeIs('categories.index')" wire:navigate>{{ __('Categories') }}</flux:navlist.item>
+                    <flux:navlist.item icon="clipboard-document-list" :href="route('categories.index')" :current="request()->routeIs('categories.index')" wire:navigate>
+                        {{ __('Categories') }}
+                    </flux:navlist.item>
 
-                    <flux:navlist.item icon="list-bullet" :href="route('products')" :current="request()->routeIs('products')" wire:navigate>{{ __('Products') }}</flux:navlist.item>
+                    <flux:navlist.item icon="list-bullet" :href="route('products.index')" :current="request()->routeIs('products.*')" wire:navigate>
+                        {{ __('Products') }}
+                    </flux:navlist.item>
+                    
                 </flux:navlist.group>
             </flux:navlist>
             
@@ -88,8 +95,9 @@
 
             <flux:dropdown position="top" align="end">
                 <flux:profile
-                    :initials="auth()->user()->initials()"
-                    icon-trailing="chevron-down"
+                    :name="auth()->user()?->name ?? 'Guest'"
+                    :initials="auth()->user()?->initials() ?? 'G'"
+                    icon-trailing="chevrons-up-down"
                 />
 
                 <flux:menu>
@@ -134,4 +142,4 @@
 
         @fluxScripts
     </body>
-</html>*
+</html>

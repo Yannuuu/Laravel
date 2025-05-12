@@ -9,30 +9,30 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $table = 'products';
+
+    protected $guarded = ['id'];
+
     protected $fillable = [
         'name',
         'slug',
         'description',
-        'short_description',
+        'sku',
         'price',
         'stock',
-        'product_category_id',
-        'image',
+        'category_id',
+        'image_url',
         'is_active'
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
-        'is_active' => 'boolean',
+        'stock' => 'integer',
+        'is_active' => 'boolean'
     ];
 
     public function category()
     {
-        return $this->belongsTo(ProductCategory::class, 'product_category_id');
-    }
-
-    public function orderDetails()
-    {
-        return $this->hasMany(OrderDetail::class);
+        return $this->belongsTo(Categories::class, 'category_id');
     }
 }

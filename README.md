@@ -1,1 +1,1 @@
-https://yanuarta4c.blogspot.com/2025/03/pengertian-laravel-dan-instalasi-laravel.html
+https://yanuarrrta.blogspot.com/2025/05/membangun-struktur-database-dan-crud.html
